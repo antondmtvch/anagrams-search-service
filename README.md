@@ -2,6 +2,11 @@
 
 This is a simple async service for finding anagrams in the redis database.
 
+## What you need
+
+* Redis 2.5.4
+* Python 3.7.4
+
 ## Usage
 
 ### Load words list
