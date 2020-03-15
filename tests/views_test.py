@@ -67,10 +67,3 @@ async def test_get_failed_1(cli):
     response = await cli.get('/get?key=value')
     assert response.status == 400
 
-
-
-
-
-
-
-
