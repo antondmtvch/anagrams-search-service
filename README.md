@@ -7,6 +7,11 @@ This is a simple async service for finding anagrams in the redis database.
 * Redis 2.5.4
 * Python 3.7.4
 
+## Start application
+
+```markdown
+docker-compose up
+```
 ## Usage
 
 ### Load words list
@@ -41,3 +46,7 @@ curl -X GET 'http://localhost:8080/get?word=qwe'
 ```json
 null
 ```
+
+## Performance
+
+![GitHub Logo](/load-test-1.png)
