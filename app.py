@@ -10,14 +10,14 @@ from api.routes import setup_routes
 from settings import load_settings
 
 
-async def setup_redis(app: web.Application) -> aioredis.ConnectionsPool:
+async def setup_redis(app: web.Application, db: int) -> aioredis.ConnectionsPool:
 
     try:
         pool = await aioredis.create_pool((
             app['settings']['redis']['REDIS_HOST'],
             app['settings']['redis']['REDIS_PORT']
         ),
-            db=app['settings']['redis']['REDIS_DB']
+            db=db
         )
     except (OSError, KeyError) as e:
         logger.error(e)
@@ -33,9 +33,9 @@ async def setup_redis(app: web.Application) -> aioredis.ConnectionsPool:
     return pool
 
 
-async def init_app(settings: dict) -> web.Application:
+async def init_app(settings: dict, db: int, **kwargs) -> web.Application:
 
-    app = web.Application()
+    app = web.Application(**kwargs)
 
     app['settings'] = settings
 
@@ -45,7 +45,7 @@ async def init_app(settings: dict) -> web.Application:
 
     app.middlewares.append(validation_middleware)
 
-    await setup_redis(app)
+    await setup_redis(app, db)
 
     logger.debug(app['settings'])
 
@@ -54,7 +54,7 @@ async def init_app(settings: dict) -> web.Application:
 
 def main():
     settings = load_settings()
-    app = init_app(settings)
+    app = init_app(settings, db=settings['redis']['REDIS_DB'])
     try:
         web.run_app(app, host=settings['app']['APP_HOST'], port=settings['app']['APP_PORT'])
     except KeyError as e:
