@@ -7,7 +7,7 @@ This is a simple async service for finding anagrams in the redis database.
 ### Load words list
 
 ```buildoutcfg
-curl -X POST http://localhost:8080/load -d '{"words": ["foobar", "aabb", "baba", "boofar", "test"]}'
+curl -X POST http://localhost:8080/load -H 'content-type: application/json' -d '{"words": ["foobar", "aabb", "baba", "boofar", "test"]}'
 ```
 
 * Result
