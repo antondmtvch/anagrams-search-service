@@ -23,7 +23,7 @@ async def setup_redis(app: web.Application, db: int) -> aioredis.ConnectionsPool
         logger.error(e)
         sys.exit(1)
 
-    async def close_redis(app: web.Application):
+    async def close_redis():
         pool.close()
         await pool.wait_closed()
 
