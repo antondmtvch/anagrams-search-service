@@ -14,27 +14,25 @@ async def index(request: web.Request) -> web.Response:
 
 
 async def get(request: web.Request) -> web.Response:
-    if not request.query:
-        return json_response(None)
+    null_response_data = None
     try:
         word = sort(request.query['word'])
     except KeyError:
-        return web.HTTPBadRequest()
+        return json_response(null_response_data)
 
     with await request.app.get('redis-pool') as conn:
-        data = await conn.execute('SMEMBERS', word, encoding='utf-8')
-        if not data:
-            return json_response(None)
-    return json_response(data)
+        redis_response_data = await conn.execute('SMEMBERS', word, encoding='utf-8')
+        if redis_response_data:
+            return json_response(redis_response_data)
+    return json_response(null_response_data)
 
 
 @request_schema(LoadBodyData)
 async def load(request: web.Request) -> web.Response:
-    body = await request.json()
-    redis_data = get_anagrams_dict(body['words'])
+    request_body_data = await request.json()
+    anagrams_dict = get_anagrams_dict(request_body_data['words'])
 
     with await request.app.get('redis-pool') as conn:
-
-        for k, v in redis_data.items():
-            await conn.execute('SADD', k, *v)
+        for key, values in anagrams_dict.items():
+            await conn.execute('SADD', key, *values)
     return web.HTTPOk()
