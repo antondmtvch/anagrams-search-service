@@ -63,7 +63,8 @@ async def test_get_success_3(cli):
     assert sorted(_json) == ["boofar", "foobar"]
 
 
-async def test_get_failed_1(cli):
+async def test_get_success_4(cli):
     response = await cli.get('/get?key=value')
-    assert response.status == 400
-
+    assert response.status == 200
+    text = await response.text()
+    assert text == 'null'
