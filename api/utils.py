@@ -6,7 +6,12 @@ from aiohttp import web
 
 
 def json_response(data: Union[list, None], **kwargs) -> web.Response:
-    kwargs.setdefault('headers', {'content-type': 'application/json'})
+    kwargs.setdefault(
+        'headers',
+        {
+            'content-type': 'application/json'
+        }
+    )
     return web.Response(body=ujson.dumps(data, ensure_ascii=False), **kwargs)
 
 
@@ -15,8 +20,8 @@ def sort(word: str) -> str:
 
 
 def get_anagrams_dict(words: list) -> defaultdict:
-    dd = defaultdict(set)
-    for w in words:
-        key = sort(w)
-        dd[key].add(w)
-    return dd
+    _dict = defaultdict(set)
+    for word in words:
+        key = sort(word)
+        _dict[key].add(word)
+    return _dict
