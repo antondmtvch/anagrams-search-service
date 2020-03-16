@@ -41,7 +41,3 @@ curl -X GET 'http://localhost:8080/get?word=qwe'
 ```json
 null
 ```
-
-## Performance
-
-![GitHub Logo](/load-test-1.png)
