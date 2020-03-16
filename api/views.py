@@ -9,11 +9,11 @@ from api.utils import sort
 __all__ = ['index', 'load', 'get']
 
 
-async def index(request: web.Request)-> web.Response:
+async def index(request: web.Request) -> web.Response:
     return web.HTTPOk()
 
 
-async def get(request: web.Request)-> web.Response:
+async def get(request: web.Request) -> web.Response:
     if not request.query:
         return json_response(None)
     try:
