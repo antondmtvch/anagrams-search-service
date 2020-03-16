@@ -10,7 +10,7 @@ def json_response(data: Union[list, None], **kwargs) -> web.Response:
     return web.Response(body=ujson.dumps(data, ensure_ascii=False), **kwargs)
 
 
-def sort(word: str) -> Union[str, None]:
+def sort(word: str) -> str:
     return ''.join(sorted(word.lower().strip()))
 
 
